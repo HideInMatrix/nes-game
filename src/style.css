@@ -1,0 +1,4 @@
+/* 只保留基础样式重置 */
+:root {
+  color-scheme: light dark;
+}
