@@ -13,11 +13,11 @@
       <div class="flex items-center gap-8">
         <div class="flex gap-8">
           <a
-            v-for="link in ['home', 'games', 'news', 'about']"
-            :key="link"
-            :href="`#${link}`"
+            v-for="link in menus"
+            :key="link.url"
+            :href="`${link.url}`"
             class="text-white font-medium hover:text-blue-400 transition-colors">
-            {{ t(`nav.${link}`) }}
+            {{ t(`nav.${link.name}`) }}
           </a>
         </div>
         <button
@@ -38,6 +38,11 @@ const { t, locale } = useI18n();
 const isNavVisible = ref(true);
 const lastScrollPosition = ref(0);
 const SCROLL_THRESHOLD = 50;
+
+const menus = [
+  { name: "home", url: "/" },
+  { name: "games", url: "/games" },
+];
 
 const handleScroll = () => {
   const currentScrollPosition = window.scrollY;
