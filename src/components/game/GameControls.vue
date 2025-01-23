@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { Settings2, X, Save, Clock, Trash2 } from "lucide-vue-next";
+import { Settings2, Save, Clock, Trash2 } from "lucide-vue-next";
 import type { NesVueInstance } from "@davidmorgan/nes-vue";
 
 const { t } = useI18n();
