@@ -53,7 +53,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="containerRef"
-    class="w-full h-[70vh] bg-black flex items-center justify-center">
+    class="w-full h-[100vh] bg-black flex items-center justify-center">
     <nes-vue
       ref="nesRef"
       v-bind="config"
