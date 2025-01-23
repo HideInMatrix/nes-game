@@ -8,12 +8,18 @@ importers:
 
   .:
     dependencies:
+      '@davidmorgan/nes-vue':
+        specifier: ^0.0.3
+        version: 0.0.3(typescript@5.7.3)
       '@types/node':
         specifier: ^22.10.7
         version: 22.10.7
       gsap:
         specifier: ^3.12.5
         version: 3.12.7
+      lucide-vue-next:
+        specifier: ^0.473.0
+        version: 0.473.0(vue@3.5.13(typescript@5.7.3))
       vue:
         specifier: ^3.5.10
         version: 3.5.13(typescript@5.7.3)
@@ -185,6 +191,9 @@ packages:
   '@babel/types@7.26.5':
     resolution: {integrity: sha512-L6mZmwFDK6Cjh1nRCLXpa6no13ZIioJDz7mdkzHv399pThrTa/k0nUlNaenOeh2kWu/iaOQYElEpKPUswUa9Vg==}
     engines: {node: '>=6.9.0'}
+
+  '@davidmorgan/nes-vue@0.0.3':
+    resolution: {integrity: sha512-UPPirKKi9EknDO2phtoY1vTWSXuNW2US/KVNqANVwWjA0dMsBJTM8g+ojuPBBxMowCoO0mbxN+P+XJD9r9kfng==}
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -826,6 +835,9 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
+  jsnes@1.2.1:
+    resolution: {integrity: sha512-Gn+lnv5B5c/TVwFSc8vzo7amiSogRyfMI9UL7VjYgKDrlTLf7GKuK2WD+t0gEcLbzh/NfMpkIlopzN/3cq760A==}
+
   json5@2.2.3:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
@@ -844,6 +856,11 @@ packages:
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
+
+  lucide-vue-next@0.473.0:
+    resolution: {integrity: sha512-6EAhONOEUGTrJbZ2JUfeWQpoL/XUHZP6+oGH6NDLeQ1/CisY5DkaJ6H/Ky9GLwiGxMo26ioSyoIpKusLV6VfsQ==}
+    peerDependencies:
+      vue: '>=3.0.1'
 
   magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
@@ -1318,6 +1335,13 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
+
+  '@davidmorgan/nes-vue@0.0.3(typescript@5.7.3)':
+    dependencies:
+      jsnes: 1.2.1
+      vue: 3.5.13(typescript@5.7.3)
+    transitivePeerDependencies:
+      - typescript
 
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
@@ -1937,6 +1961,8 @@ snapshots:
 
   jsesc@3.1.0: {}
 
+  jsnes@1.2.1: {}
+
   json5@2.2.3: {}
 
   kolorist@1.8.0: {}
@@ -1954,6 +1980,10 @@ snapshots:
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
+
+  lucide-vue-next@0.473.0(vue@3.5.13(typescript@5.7.3)):
+    dependencies:
+      vue: 3.5.13(typescript@5.7.3)
 
   magic-string@0.30.17:
     dependencies:
