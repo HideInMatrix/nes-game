@@ -48,6 +48,60 @@ const allGames = ref<Game[]>([
     releaseDate: "2023-06-22",
     publisher: "Square Enix",
   },
+  {
+    id: 4,
+    key: "sekiro",
+    image:
+      "https://images.unsplash.com/photo-1538481199706-c710c4e965fc?auto=format&fit=crop&w=800&q=80",
+    category: "action",
+    releaseDate: "2019-03-22",
+    publisher: "FromSoftware",
+  },
+  {
+    id: 5,
+    key: "elden-ring",
+    image:
+      "https://images.unsplash.com/photo-1552820729-8b83bb6b773f?auto=format&fit=crop&w=800&q=80",
+    category: "action",
+    releaseDate: "2022-02-25",
+    publisher: "FromSoftware",
+  },
+  {
+    id: 6,
+    key: "ff16",
+    image:
+      "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80",
+    category: "rpg",
+    releaseDate: "2023-06-22",
+    publisher: "Square Enix",
+  },
+  {
+    id: 7,
+    key: "sekiro",
+    image:
+      "https://images.unsplash.com/photo-1538481199706-c710c4e965fc?auto=format&fit=crop&w=800&q=80",
+    category: "action",
+    releaseDate: "2019-03-22",
+    publisher: "FromSoftware",
+  },
+  {
+    id: 8,
+    key: "elden-ring",
+    image:
+      "https://images.unsplash.com/photo-1552820729-8b83bb6b773f?auto=format&fit=crop&w=800&q=80",
+    category: "action",
+    releaseDate: "2022-02-25",
+    publisher: "FromSoftware",
+  },
+  {
+    id: 9,
+    key: "ff16",
+    image:
+      "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80",
+    category: "rpg",
+    releaseDate: "2023-06-22",
+    publisher: "Square Enix",
+  },
 ]);
 
 const itemsPerPage = 6;
@@ -130,6 +184,6 @@ watch([searchQuery, selectedCategory], () => {
     </div>
 
     <!-- Pagination -->
-    <Pagination v-model:page="currentPage" :total-pages="totalPages" />
+    <Pagination v-model:currentPage="currentPage" :total-pages="totalPages" />
   </div>
 </template>

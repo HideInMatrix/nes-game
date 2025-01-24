@@ -5,11 +5,11 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  "update:page": [page: number];
+  "update:currentPage": [currentPage: number];
 }>();
 
 const changePage = (page: number) => {
-  emit("update:page", page);
+  emit("update:currentPage", page);
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 </script>
