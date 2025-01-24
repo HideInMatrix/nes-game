@@ -9,6 +9,7 @@ export default defineConfig({
   base: "./" /* 这个就是webpack里面的publicPath */,
 
   build: {
+    outDir: "dist", // 输出目录
     rollupOptions: {
       output: {
         // 最小化拆分包
