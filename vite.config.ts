@@ -6,7 +6,7 @@ import { resolve } from "path";
 
 const pathSrc = resolve(__dirname, "src");
 export default defineConfig({
-  base: "./" /* 这个就是webpack里面的publicPath */,
+  base: "/" /* 这个就是webpack里面的publicPath */,
 
   build: {
     outDir: "dist", // 输出目录
