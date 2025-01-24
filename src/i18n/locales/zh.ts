@@ -17,6 +17,9 @@ export default {
     strategy: "策略游戏",
   },
   games: {
+    allCategories: "所有类别",
+    searchPlaceholder: "搜索游戏...",
+    noResults: "未找到游戏",
     sekiro: "只狼：影逝二度",
     "elden-ring": "艾尔登法环",
     dmc5: "恶魔猎人5",

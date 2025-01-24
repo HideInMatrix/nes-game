@@ -1,5 +1,21 @@
-# Vue 3 + TypeScript + Vite
+# 任天堂游戏模拟网站
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 介绍
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+任天堂游戏模拟网站是一款基于 Web 的任天堂游戏模拟器，可以模拟任天堂系列游戏的操作，并提供游戏资源下载。
+
+## 功能
+
+- 任天堂系列游戏模拟：可以模拟任天堂系列游戏的操作，包括游戏开始、游戏暂停、游戏结束、游戏存档等。
+- 资源下载：可以下载任天堂系列游戏的资源，包括游戏本体、游戏 Demo、游戏光碟、游戏手册等。
+- 多人游戏：可以与其他玩家一起进行多人游戏。(待完成)
+- 聊天功能：可以与其他玩家进行聊天。(待完成)
+- 排行榜：可以查看游戏的排行榜。(待完成)
+- 注册登录：可以注册账号，登录游戏。(待完成)
+- 个人中心：可以查看个人信息、修改密码、查看游戏记录等。(待完成)
+
+## 系统架构
+
+- 前端：使用 React 开发，使用 Redux 管理状态，使用 React Router 管理路由。
+- 后端：使用 Node.js 开发，使用 Nest.js 框架开发 RESTful API。
+- 数据库：使用 PostgreSQL 数据库，存储用户信息、游戏记录、排行榜等。

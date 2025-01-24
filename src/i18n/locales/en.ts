@@ -1,34 +1,49 @@
 export default {
   nav: {
-    home: 'Home',
-    games: 'Games',
-    news: 'News',
-    about: 'About'
+    home: "Home",
+    games: "Games",
+    news: "News",
+    about: "About",
   },
   hero: {
-    title: 'Final Fantasy XVI',
-    description: 'Embark on Clive Rosfield\'s epic adventure in a world filled with magic and war to write your own legend.',
-    playButton: 'Play Now'
+    title: "Final Fantasy XVI",
+    description:
+      "Embark on Clive Rosfield's epic adventure in a world filled with magic and war to write your own legend.",
+    playButton: "Play Now",
   },
   categories: {
-    action: 'Action Games',
-    rpg: 'Role-Playing Games',
-    strategy: 'Strategy Games'
+    action: "Action Games",
+    rpg: "Role-Playing Games",
+    strategy: "Strategy Games",
+  },
+  games: {
+    allCategories: "All Categories",
+    searchPlaceholder: "Search games...",
+    noResults: "No games found",
+    sekiro: "Sekiro: Shadows Die Twice",
+    "elden-ring": "Elden Ring",
+    dmc5: "Devil May Cry 5",
+    ff16: "Final Fantasy XVI",
+    p5: "Persona 5",
+    xenoblade3: "Xenoblade Chronicles 3",
+    civ6: "Civilization VI",
+    warhammer3: "Total War: Warhammer III",
+    aoe4: "Age of Empires IV",
   },
   controls: {
-    title: 'Game Controls',
-    keyboard: 'Keyboard',
-    gamepad: 'Gamepad',
-    movement: 'Movement',
-    jump: 'Jump',
-    action: 'Action',
-    connected: 'Connected',
-    disconnected: 'Not Connected',
-    player1: 'Player 1',
-    player2: 'Player 2',
-    pressKey: 'Press any key...',
-    saveProgress: 'Save Progress',
-    slot: 'Slot',
-    load: 'Load'
-  }
-}
+    title: "Game Controls",
+    keyboard: "Keyboard",
+    gamepad: "Gamepad",
+    movement: "Movement",
+    jump: "Jump",
+    action: "Action",
+    connected: "Connected",
+    disconnected: "Not Connected",
+    player1: "Player 1",
+    player2: "Player 2",
+    pressKey: "Press any key...",
+    saveProgress: "Save Progress",
+    slot: "Slot",
+    load: "Load",
+  },
+};
