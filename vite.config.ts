@@ -33,6 +33,15 @@ export default defineConfig({
       "@/": `${pathSrc}/`,
     },
   },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:7000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
   plugins: [
     vue(),
     UnoCSS(),

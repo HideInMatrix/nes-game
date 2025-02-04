@@ -2,20 +2,18 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import gsap from "gsap";
+import { Game } from "@/game";
+import { baseURL } from "@/api";
 
 const props = defineProps<{
-  game: {
-    id: number;
-    key: string;
-    image: string;
-  };
+  game: Game;
 }>();
 
 const router = useRouter();
 const cardRef = ref(null);
 
 const navigateToGame = () => {
-  router.push(`/game/${props.game.key}`);
+  router.push(`/game/${props.game.id}`);
 };
 
 const onMouseEnter = () => {
@@ -43,12 +41,12 @@ const onMouseLeave = () => {
     @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave">
     <img
-      :src="game.image"
-      :alt="game.key"
+      :src="`${baseURL}/roms/getFile?fileName=/img/${game.image}`"
+      :alt="game.title"
       class="w-full h-[150px] object-cover" />
     <div
       class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-      <div class="text-white font-medium">{{ game.key }}</div>
+      <div class="text-white font-medium">{{ game.url }}</div>
     </div>
   </div>
 </template>

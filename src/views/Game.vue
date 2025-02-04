@@ -5,6 +5,10 @@ import { useRoute } from "vue-router";
 import GameCanvas from "@/components/game/GameCanvas.vue";
 import GameInfo from "@/components/game/GameInfo.vue";
 import GameControls from "@/components/game/GameControls.vue";
+import { Game } from "@/game";
+import { baseURL, getRomById } from "@/api";
+import Api from "@/custom/axios";
+import { Response } from "@/response";
 
 const route = useRoute();
 const gameId = route.params.id as string;
@@ -35,20 +39,13 @@ const p2Config = ref({
 });
 
 const nesConfig = ref({
-  url: "/Super Mario Bros (JU).nes",
+  url: "",
   p1: p1Config.value,
   p2: p2Config.value,
 });
 
 // Game Information
-const gameInfo = {
-  title: "Super Mario Bros",
-  description:
-    "Super Mario Bros. is a platform game developed and published by Nintendo. The successor to the 1983 arcade game Mario Bros. and the first Super Mario game, it was released in 1985 for the Nintendo Entertainment System (NES).",
-  releaseDate: "September 13, 1985",
-  publisher: "Nintendo",
-  developer: "Nintendo R&D4",
-};
+const gameInfo = ref<Game>();
 
 // Gamepad Connection
 const checkGamepad = () => {
@@ -76,14 +73,30 @@ onMounted(() => {
   });
 
   checkGamepad();
+
+  Api.get(
+    getRomById(),
+    { id: gameId },
+    (resp: Response) => {
+      gameInfo.value = resp.data as Game;
+      nesConfig.value.url = `${baseURL}/roms/getFile?fileName=${
+        (resp.data as Game).url
+      }`;
+    },
+    (_error: Response) => {}
+  );
 });
 </script>
 
 <template>
   <div class="relative min-h-screen bg-dark overflow-hidden">
-    <GameCanvas ref="canvasRef" :game-id="gameId" :config="nesConfig" />
+    <GameCanvas
+      v-if="nesConfig.url"
+      ref="canvasRef"
+      :game-id="gameId"
+      :config="nesConfig" />
 
-    <GameInfo :game-info="gameInfo" />
+    <GameInfo v-if="gameInfo" :game-info="gameInfo" />
 
     <GameControls
       :nes-ref="canvasRef?.nesRef"

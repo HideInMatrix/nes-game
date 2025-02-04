@@ -5,108 +5,22 @@ import { useI18n } from "vue-i18n";
 import GameCard from "@/components/GameCard.vue";
 import GameFilters from "./GameFilters.vue";
 import Pagination from "./Pagination.vue";
+import { Game } from "@/game";
+import Api from "@/custom/axios";
+import { getGamesByCategory } from "@/api";
+import { Response } from "@/response";
 
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
-interface Game {
-  id: number;
-  key: string;
-  image: string;
-  category: string;
-  releaseDate: string;
-  publisher: string;
-}
-
 // Mock data - in real app this would come from an API
-const allGames = ref<Game[]>([
-  {
-    id: 1,
-    key: "sekiro",
-    image:
-      "https://images.unsplash.com/photo-1538481199706-c710c4e965fc?auto=format&fit=crop&w=800&q=80",
-    category: "action",
-    releaseDate: "2019-03-22",
-    publisher: "FromSoftware",
-  },
-  {
-    id: 2,
-    key: "elden-ring",
-    image:
-      "https://images.unsplash.com/photo-1552820729-8b83bb6b773f?auto=format&fit=crop&w=800&q=80",
-    category: "action",
-    releaseDate: "2022-02-25",
-    publisher: "FromSoftware",
-  },
-  {
-    id: 3,
-    key: "ff16",
-    image:
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80",
-    category: "rpg",
-    releaseDate: "2023-06-22",
-    publisher: "Square Enix",
-  },
-  {
-    id: 4,
-    key: "sekiro",
-    image:
-      "https://images.unsplash.com/photo-1538481199706-c710c4e965fc?auto=format&fit=crop&w=800&q=80",
-    category: "action",
-    releaseDate: "2019-03-22",
-    publisher: "FromSoftware",
-  },
-  {
-    id: 5,
-    key: "elden-ring",
-    image:
-      "https://images.unsplash.com/photo-1552820729-8b83bb6b773f?auto=format&fit=crop&w=800&q=80",
-    category: "action",
-    releaseDate: "2022-02-25",
-    publisher: "FromSoftware",
-  },
-  {
-    id: 6,
-    key: "ff16",
-    image:
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80",
-    category: "rpg",
-    releaseDate: "2023-06-22",
-    publisher: "Square Enix",
-  },
-  {
-    id: 7,
-    key: "sekiro",
-    image:
-      "https://images.unsplash.com/photo-1538481199706-c710c4e965fc?auto=format&fit=crop&w=800&q=80",
-    category: "action",
-    releaseDate: "2019-03-22",
-    publisher: "FromSoftware",
-  },
-  {
-    id: 8,
-    key: "elden-ring",
-    image:
-      "https://images.unsplash.com/photo-1552820729-8b83bb6b773f?auto=format&fit=crop&w=800&q=80",
-    category: "action",
-    releaseDate: "2022-02-25",
-    publisher: "FromSoftware",
-  },
-  {
-    id: 9,
-    key: "ff16",
-    image:
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80",
-    category: "rpg",
-    releaseDate: "2023-06-22",
-    publisher: "Square Enix",
-  },
-]);
+const allGames = ref<Game[]>([]);
 
-const itemsPerPage = 6;
+const itemsPerPage = 24;
 const currentPage = ref(1);
 const searchQuery = ref("");
+const totalPages = ref(0);
 const selectedCategory = ref("");
 
 // Sync URL parameters with component state
@@ -132,6 +46,7 @@ const updateURL = () => {
   }
 
   router.replace({ query });
+  getGames();
 };
 
 // Watch for changes and update URL
@@ -139,31 +54,32 @@ watch([currentPage, searchQuery, selectedCategory], () => {
   updateURL();
 });
 
-const filteredGames = computed(() => {
-  return allGames.value.filter((game) => {
-    const matchesSearch = t(`games.${game.key}`)
-      .toLowerCase()
-      .includes(searchQuery.value.toLowerCase());
-    const matchesCategory =
-      !selectedCategory.value || game.category === selectedCategory.value;
-    return matchesSearch && matchesCategory;
-  });
-});
-
-const totalPages = computed(() =>
-  Math.ceil(filteredGames.value.length / itemsPerPage)
-);
-
-const paginatedGames = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return filteredGames.value.slice(start, end);
-});
-
 // Reset to first page when filters change
 watch([searchQuery, selectedCategory], () => {
   currentPage.value = 1;
 });
+
+const getGames = () => {
+  Api.get(
+    getGamesByCategory(),
+    {
+      categoryId: selectedCategory.value ? selectedCategory.value : null,
+      page: currentPage.value - 1,
+      pageSize: itemsPerPage,
+      keyword: searchQuery.value ? searchQuery.value : null,
+    },
+    (resp: Response) => {
+      let data = resp.data as {
+        games: Game[];
+        totalGames: number;
+        totalPages: number;
+      };
+      allGames.value = data.games as Game[];
+      totalPages.value = data.totalPages;
+    },
+    (_err: any) => {}
+  );
+};
 </script>
 
 <template>
@@ -175,12 +91,12 @@ watch([searchQuery, selectedCategory], () => {
 
     <!-- Games Grid -->
     <div
-      v-if="paginatedGames.length > 0"
+      v-if="allGames.length > 0"
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <GameCard v-for="game in paginatedGames" :key="game.id" :game="game" />
+      <GameCard v-for="game in allGames" :key="game.id" :game="game" />
     </div>
     <div v-else class="text-center text-gray-400 py-12 text-lg">
-      {{ t("games.noResults") }}
+      {{ t("base.noResults") }}
     </div>
 
     <!-- Pagination -->

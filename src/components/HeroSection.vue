@@ -3,13 +3,17 @@ import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import gsap from "gsap";
+import Api from "@/custom/axios";
+import { getRandomRom } from "@/api";
+import { Game } from "@/game";
+import { Response } from "@/response";
 
 const { t } = useI18n();
 const router = useRouter();
 const heroRef = ref(null);
 
 const playGame = () => {
-  router.push(`/game/ff16`);
+  router.push(`/game/${randomRom.value?.id}`);
 };
 
 onMounted(() => {
@@ -19,6 +23,18 @@ onMounted(() => {
     duration: 1,
     ease: "power3.out",
   });
+});
+const randomRom = ref<Game>();
+
+onBeforeMount(() => {
+  Api.get(
+    getRandomRom(),
+    null,
+    (response: Response) => {
+      randomRom.value = response.data as Game;
+    },
+    (_error: Response) => {}
+  );
 });
 </script>
 
@@ -31,14 +47,14 @@ onMounted(() => {
     ">
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="text-center text-white z-10 px-8">
-      <h1 class="text-5xl mb-4">{{ t("hero.title") }}</h1>
+      <h1 class="text-5xl mb-4">{{ randomRom?.title }}</h1>
       <p class="text-xl max-w-2xl mx-auto mb-8">
-        {{ t("hero.description") }}
+        {{ randomRom?.comment }}
       </p>
       <button
         @click="playGame"
         class="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-lg font-medium transition-colors">
-        {{ t("hero.playButton") }}
+        {{ t("base.playButton") }}
       </button>
     </div>
   </div>

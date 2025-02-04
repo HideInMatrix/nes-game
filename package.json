@@ -11,7 +11,9 @@
   "dependencies": {
     "@davidmorgan/nes-vue": "^0.0.3",
     "@types/node": "^22.10.7",
+    "axios": "^1.7.9",
     "gsap": "^3.12.5",
+    "http-proxy-middleware": "^3.0.3",
     "lucide-vue-next": "^0.473.0",
     "vue": "^3.5.10",
     "vue-i18n": "^9.9.1",
