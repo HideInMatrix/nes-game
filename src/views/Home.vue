@@ -16,7 +16,7 @@ onBeforeMount(() => {
     (response: Response) => {
       categories.value = response.data as Category[];
     },
-    (error: Response) => {}
+    (_error: Response) => {}
   );
 });
 </script>
