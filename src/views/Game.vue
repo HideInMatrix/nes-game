@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import GameCanvas from "@/components/game/GameCanvas.vue";
 import GameInfo from "@/components/game/GameInfo.vue";
@@ -10,6 +9,7 @@ import { baseURL, getRomById } from "@/api";
 import Api from "@/custom/axios";
 import { Response } from "@/response";
 
+const router = useRouter();
 const route = useRoute();
 const gameId = route.params.id as string;
 
@@ -74,17 +74,26 @@ onMounted(() => {
 
   checkGamepad();
 
-  Api.get(
-    getRomById(),
-    { id: gameId },
-    (resp: Response) => {
-      gameInfo.value = resp.data as Game;
-      nesConfig.value.url = `${baseURL}/roms/getFile?fileName=${
-        (resp.data as Game).url
-      }`;
-    },
-    (_error: Response) => {}
-  );
+  if (gameId) {
+    Api.get(
+      getRomById(),
+      { id: gameId },
+      (resp: Response) => {
+        gameInfo.value = resp.data as Game;
+        nesConfig.value.url = `${baseURL}/roms/getFile?fileName=${
+          (resp.data as Game).url
+        }`;
+      },
+      (_error: Response) => {}
+    );
+  } else {
+    router.back();
+  }
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("gamepadconnected", (_e) => {});
+  window.removeEventListener("gamepaddisconnected", (_e) => {});
 });
 </script>
 
