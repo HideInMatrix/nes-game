@@ -58,6 +58,10 @@ watch([searchQuery, selectedCategory], () => {
   currentPage.value = 1;
 });
 
+onBeforeMount(() => {
+  getGames();
+});
+
 const getGames = () => {
   Api.get(
     getGamesByCategory(),
