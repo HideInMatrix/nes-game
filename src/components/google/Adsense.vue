@@ -66,10 +66,5 @@ const props = defineProps({
 
 const scriptSrc = ref("");
 
-watch(
-  () => props.clientId,
-  (clientId) => {}
-);
-console.log(props.clientId);
 scriptSrc.value = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${props.clientId}`;
 </script>
