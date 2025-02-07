@@ -21,7 +21,7 @@ const controlsRef = ref(null);
 const activeInput = ref<string | null>(null);
 
 interface SaveSlot {
-  id: number;
+  id: string;
   date: string;
 }
 
@@ -57,11 +57,11 @@ const createSaveSlot = () => {
   const currentDate = new Date().toLocaleString();
   if (props.gameInfo) {
     props.nesRef.save(`${props.gameInfo.title}-${newSlotId}`);
+    saveSlots.value.push({
+      id: `${props.gameInfo.title}-${newSlotId}`,
+      date: currentDate,
+    });
   }
-  saveSlots.value.push({
-    id: newSlotId,
-    date: currentDate,
-  });
 };
 
 const loadProgress = (slot: SaveSlot) => {
@@ -105,7 +105,7 @@ const deleteSlot = (slot: SaveSlot, event: Event) => {
     // Reorder remaining slots
     saveSlots.value = saveSlots.value.map((s, idx) => ({
       ...s,
-      id: idx + 1,
+      id: `${props.gameInfo!.title}-${idx + 1}`,
     }));
   }
 };
@@ -128,10 +128,15 @@ const checkSaveSlots = async () => {
     getAllRequest.onsuccess = (event: any) => {
       const savedSlots = event.target.result;
       if (savedSlots && savedSlots.length > 0) {
-        saveSlots.value = savedSlots.map((slot: any) => ({
-          id: slot.id,
-          date: slot.date,
-        }));
+        saveSlots.value = savedSlots.filter((slot: any) => {
+          let name = slot.id.split("-")[0];
+          if (props.gameInfo && props.gameInfo.title === name) {
+            return {
+              id: slot.id,
+              date: slot.date,
+            };
+          }
+        });
       }
     };
 
@@ -151,9 +156,14 @@ const toggleControlsMenu = () => {
 
 onMounted(() => {
   window.addEventListener("keydown", handleKeyDown);
-  checkSaveSlots();
 });
 
+watch(
+  () => props.gameInfo,
+  () => {
+    checkSaveSlots();
+  }
+);
 onUnmounted(() => {
   window.removeEventListener("keydown", handleKeyDown);
 });
