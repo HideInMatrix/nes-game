@@ -108,6 +108,7 @@ onBeforeUnmount(() => {
     <GameInfo v-if="gameInfo" :game-info="gameInfo" />
 
     <GameControls
+      :gameInfo="gameInfo"
       :nes-ref="canvasRef?.nesRef"
       v-model:p1-config="p1Config"
       v-model:p2-config="p2Config"

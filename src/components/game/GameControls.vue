@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { Settings2, Save, Clock, Trash2 } from "lucide-vue-next";
 import type { NesVueInstance } from "@davidmorgan/nes-vue";
+import { Game } from "@/game";
 
 const { t } = useI18n();
 const props = defineProps<{
@@ -10,6 +11,7 @@ const props = defineProps<{
   p1Config: Record<string, string>;
   p2Config: Record<string, string>;
   gamepadConnected: boolean[];
+  gameInfo: Game | undefined;
 }>();
 
 const emit = defineEmits(["update:p1Config", "update:p2Config"]);
@@ -53,8 +55,9 @@ const createSaveSlot = () => {
 
   const newSlotId = saveSlots.value.length + 1;
   const currentDate = new Date().toLocaleString();
-
-  props.nesRef.save(`slot${newSlotId}`);
+  if (props.gameInfo) {
+    props.nesRef.save(`${props.gameInfo.title}-${newSlotId}`);
+  }
   saveSlots.value.push({
     id: newSlotId,
     date: currentDate,
@@ -62,13 +65,40 @@ const createSaveSlot = () => {
 };
 
 const loadProgress = (slot: SaveSlot) => {
-  if (props.nesRef) {
-    props.nesRef.load(`slot${slot.id}`);
+  if (props.nesRef && props.gameInfo) {
+    props.nesRef.load(`${slot.id}`);
   }
 };
 
 const deleteSlot = (slot: SaveSlot, event: Event) => {
-  event.stopPropagation(); // Prevent triggering load when clicking delete
+  event.stopPropagation();
+
+  // 从 IndexedDB 删除存档
+  if (window.indexedDB) {
+    const dbRequest = indexedDB.open("nes-vue", 1);
+
+    dbRequest.onsuccess = (e: any) => {
+      const db = e.target.result;
+      const transaction = db.transaction("save_data", "readwrite");
+      const store = transaction.objectStore("save_data");
+
+      // 删除指定的存档
+      const deleteRequest = store.delete(slot.id);
+
+      deleteRequest.onsuccess = () => {
+        console.log(`Slot ${slot.id} deleted from IndexedDB`);
+      };
+
+      deleteRequest.onerror = () => {
+        console.error(`Failed to delete Slot ${slot.id} from IndexedDB`);
+      };
+    };
+
+    dbRequest.onerror = () => {
+      console.error("Error opening IndexedDB.");
+    };
+  }
+
   const index = saveSlots.value.findIndex((s) => s.id === slot.id);
   if (index !== -1) {
     saveSlots.value.splice(index, 1);
@@ -80,12 +110,48 @@ const deleteSlot = (slot: SaveSlot, event: Event) => {
   }
 };
 
+const checkSaveSlots = async () => {
+  if (!window.indexedDB) {
+    console.warn("Your browser does not support IndexedDB.");
+    return;
+  }
+
+  const dbRequest = indexedDB.open("nes-vue", 1);
+
+  dbRequest.onsuccess = (e: any) => {
+    const db = e.target.result;
+    const transaction = db.transaction("save_data", "readonly");
+    const store = transaction.objectStore("save_data");
+
+    const getAllRequest = store.getAll();
+
+    getAllRequest.onsuccess = (event: any) => {
+      const savedSlots = event.target.result;
+      if (savedSlots && savedSlots.length > 0) {
+        saveSlots.value = savedSlots.map((slot: any) => ({
+          id: slot.id,
+          date: slot.date,
+        }));
+      }
+    };
+
+    getAllRequest.onerror = () => {
+      console.error("Error reading from IndexedDB.");
+    };
+  };
+
+  dbRequest.onerror = () => {
+    console.error("Error opening IndexedDB.");
+  };
+};
+
 const toggleControlsMenu = () => {
   showControls.value = !showControls.value;
 };
 
 onMounted(() => {
   window.addEventListener("keydown", handleKeyDown);
+  checkSaveSlots();
 });
 
 onUnmounted(() => {
