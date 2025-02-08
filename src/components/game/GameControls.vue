@@ -4,6 +4,8 @@ import { useI18n } from "vue-i18n";
 import { Settings2, Save, Clock, Trash2 } from "lucide-vue-next";
 import type { NesVueInstance } from "@davidmorgan/nes-vue";
 import { Game } from "@/game";
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 
 const { t } = useI18n();
 const props = defineProps<{
@@ -153,9 +155,22 @@ const checkSaveSlots = async () => {
 const toggleControlsMenu = () => {
   showControls.value = !showControls.value;
 };
-
+const hasSeenTooltip = ref(localStorage.getItem("hasSeenTooltip") === "true");
 onMounted(() => {
   window.addEventListener("keydown", handleKeyDown);
+
+  if (!hasSeenTooltip.value) {
+    const driverObj = new driver();
+    driverObj.highlight({
+      element: document.querySelector("button svg"), // 或者你可以根据按钮的类名或ID来选择
+      popover: {
+        title: "设置",
+        description: "点击这个按钮打开设置菜单",
+        position: "bottom",
+      },
+    });
+    localStorage.setItem("hasSeenTooltip", true);
+  }
 });
 
 watch(
