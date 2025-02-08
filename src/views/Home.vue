@@ -5,18 +5,24 @@ import { getRomByCategory } from "@/api";
 import Api from "@/custom/axios";
 import { Response } from "@/response";
 
+import LoadingPlugin from "@/plugins/loading";
+
 import { Category } from "@/game";
 
 const categories = ref<Category[]>([]);
 
 onBeforeMount(() => {
+  LoadingPlugin.open("LOADING");
   Api.get(
     getRomByCategory(),
     null,
     (response: Response) => {
       categories.value = response.data as Category[];
+      LoadingPlugin.close();
     },
-    (_error: Response) => {}
+    (_error: Response) => {
+      LoadingPlugin.close();
+    }
   );
 });
 </script>
