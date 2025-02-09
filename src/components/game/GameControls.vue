@@ -160,16 +160,15 @@ onMounted(() => {
   window.addEventListener("keydown", handleKeyDown);
 
   if (!hasSeenTooltip.value) {
-    const driverObj = new driver();
+    const driverObj = driver();
     driverObj.highlight({
-      element: document.querySelector("button svg"), // 或者你可以根据按钮的类名或ID来选择
+      element: "button svg", // 或者你可以根据按钮的类名或ID来选择
       popover: {
         title: "设置",
         description: "点击这个按钮打开设置菜单",
-        position: "bottom",
       },
     });
-    localStorage.setItem("hasSeenTooltip", true);
+    localStorage.setItem("hasSeenTooltip", "true");
   }
 });
 

@@ -12,7 +12,7 @@ import { Category } from "@/game";
 const categories = ref<Category[]>([]);
 
 onBeforeMount(() => {
-  LoadingPlugin.open("LOADING");
+  LoadingPlugin.open("MicroMatrix");
   Api.get(
     getRomByCategory(),
     null,

@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="visible"
-    class="fixed inset-0 w-full h-full bg-[rgba(230,253,260,0.9)] flex flex-col items-center justify-center z-[1000]">
+    class="fixed inset-0 w-full h-full bg-[rgba(230,253,260)] flex flex-col items-center justify-center z-[1000]">
     <svg class="w-[200px] h-[50px]" viewBox="0 0 200 50">
       <text x="10" y="35" class="text-[#333333] animate-stroke">
         {{ message }}
@@ -52,6 +52,6 @@ defineExpose({
   stroke: #333333;
   stroke-width: 1;
   stroke-dasharray: 200 0;
-  animation: stroke 2s ease-in-out forwards;
+  animation: stroke 2s ease-in-out infinite alternate;
 }
 </style>
