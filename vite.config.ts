@@ -71,7 +71,7 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /\/roms/,
+            urlPattern: /\/roms\/.*/,
             handler: "CacheFirst", // 使用缓存优先策略
             options: {
               cacheName: "api-cache", // 缓存名称
