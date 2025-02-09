@@ -71,6 +71,30 @@ export default defineConfig({
             },
           },
           {
+            // 缓存 getFile 接口
+            urlPattern: /\/roms\/getFile\?fileName=.*/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "file-cache",
+              expiration: {
+                maxEntries: 20,
+                maxAgeSeconds: 60 * 60 * 24 * 7, // 缓存 7 天
+              },
+            },
+          },
+          {
+            // 缓存 ROM ID 接口
+            urlPattern: /\/roms\/id\?id=.*/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "rom-id-cache",
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 缓存 30 天
+              },
+            },
+          },
+          {
             urlPattern: /\/roms\/.*/,
             handler: "CacheFirst", // 使用缓存优先策略
             options: {
