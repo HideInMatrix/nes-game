@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
 import type { NesVueInstance } from "@davidmorgan/nes-vue";
 import { NesVue } from "@davidmorgan/nes-vue";
 
@@ -30,8 +29,8 @@ const updateCanvasSize = () => {
   }
 
   canvasSize.value = {
-    width: Math.floor(width),
-    height: Math.floor(height),
+    width: Math.floor(width * window.devicePixelRatio),
+    height: Math.floor(height * window.devicePixelRatio),
   };
 };
 

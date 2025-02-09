@@ -3,6 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import UnoCSS from "unocss/vite";
 import AutoComplete from "unplugin-auto-import/vite";
 import { resolve } from "path";
+import { VitePWA } from "vite-plugin-pwa";
 
 const pathSrc = resolve(__dirname, "src");
 export default defineConfig({
@@ -48,6 +49,63 @@ export default defineConfig({
     AutoComplete({
       imports: ["vue", "vue-router"],
       dts: resolve(pathSrc, "auto-imports.d.ts"),
+    }),
+    VitePWA({
+      mode: process.env ? "development" : "production",
+      base: "/",
+      registerType: "autoUpdate",
+      workbox: {
+        runtimeCaching: [
+          {
+            urlPattern: /.*/, // 接口缓存 此处填你想缓存的接口正则匹配
+            handler: "CacheFirst",
+            options: {
+              cacheName: "interface-cache",
+            },
+          },
+          {
+            urlPattern: /(.*?)\.(js|css|ts)/, // js /css /ts静态资源缓存
+            handler: "CacheFirst",
+            options: {
+              cacheName: "js-css-cache",
+            },
+          },
+          {
+            urlPattern: /(.*?)\.(png|jpe?g|svg|gif|bmp|psd|tiff|tga|eps)/, // 图片缓存
+            handler: "CacheFirst",
+            options: {
+              cacheName: "image-cache",
+            },
+          },
+          {
+            urlPattern: /\/api\/roms\/getFile/,
+            handler: "CacheFirst", // 使用缓存优先策略
+            options: {
+              cacheName: "api-cache", // 缓存名称
+              expiration: {
+                maxEntries: 10, // 最多缓存10个请求
+                maxAgeSeconds: 60 * 60 * 24, // 缓存1天
+              },
+            },
+          },
+        ],
+      },
+      manifest: {
+        name: "游戏门户网站",
+        short_name: "GamePortal",
+        description: "红白机模拟器网站",
+        start_url: "index.html",
+        display: "standalone",
+        background_color: "#ffffff",
+        theme_color: "#000000",
+        icons: [
+          {
+            src: "/favicon.ico",
+            sizes: "320x320",
+            type: "image/png",
+          },
+        ],
+      },
     }),
   ],
 });
