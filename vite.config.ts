@@ -89,16 +89,8 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /\*\.google\.com\//,
-            handler: "NetworkOnly",
-          },
-          {
-            urlPattern: /\*\.googlesyndication\.com\//, // Exclude other Google ads
-            handler: "NetworkOnly",
-          },
-          {
-            urlPattern: /\*\.g\.doubleclick\.net\//,
-            handler: "NetworkOnly",
+            urlPattern: /.*google.*\//, // 匹配包含 "google" 字眼的所有 URL（不限制协议）
+            handler: "NetworkOnly", // 使用网络优先策略，确保这些请求不会从缓存中获取
           },
         ],
       },
