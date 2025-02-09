@@ -57,6 +57,13 @@ export default defineConfig({
       workbox: {
         runtimeCaching: [
           {
+            urlPattern: /.*/, // 接口缓存 此处填你想缓存的接口正则匹配
+            handler: "CacheFirst",
+            options: {
+              cacheName: "interface-cache",
+            },
+          },
+          {
             urlPattern: /(.*?)\.(js|css|ts)/, // js /css /ts静态资源缓存
             handler: "CacheFirst",
             options: {
@@ -71,37 +78,13 @@ export default defineConfig({
             },
           },
           {
-            // 缓存 getFile 接口
             urlPattern: /\/roms\/getFile\?fileName=.*/,
             handler: "CacheFirst",
             options: {
               cacheName: "file-cache",
               expiration: {
                 maxEntries: 20,
-                maxAgeSeconds: 60 * 60 * 24 * 7, // 缓存 7 天
-              },
-            },
-          },
-          {
-            // 缓存 ROM ID 接口
-            urlPattern: /\/roms\/id\?id=.*/,
-            handler: "CacheFirst",
-            options: {
-              cacheName: "rom-id-cache",
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 30, // 缓存 30 天
-              },
-            },
-          },
-          {
-            urlPattern: /\/roms\/.*/,
-            handler: "CacheFirst", // 使用缓存优先策略
-            options: {
-              cacheName: "api-cache", // 缓存名称
-              expiration: {
-                maxEntries: 10, // 最多缓存10个请求
-                maxAgeSeconds: 60 * 60 * 24, // 缓存1天
+                maxAgeSeconds: 60 * 60 * 24 * 7,
               },
             },
           },
