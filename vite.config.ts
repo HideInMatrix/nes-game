@@ -57,13 +57,6 @@ export default defineConfig({
       workbox: {
         runtimeCaching: [
           {
-            urlPattern: /.*/, // 接口缓存 此处填你想缓存的接口正则匹配
-            handler: "CacheFirst",
-            options: {
-              cacheName: "interface-cache",
-            },
-          },
-          {
             urlPattern: /(.*?)\.(js|css|ts)/, // js /css /ts静态资源缓存
             handler: "CacheFirst",
             options: {
@@ -78,7 +71,7 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /\/api\/roms\/getFile/,
+            urlPattern: /\/roms/,
             handler: "CacheFirst", // 使用缓存优先策略
             options: {
               cacheName: "api-cache", // 缓存名称
@@ -87,6 +80,18 @@ export default defineConfig({
                 maxAgeSeconds: 60 * 60 * 24, // 缓存1天
               },
             },
+          },
+          {
+            urlPattern: /^https:\/\/pagead2\.googlesyndication\.com\//, // 屏蔽 AdSense
+            handler: "NetworkOnly",
+          },
+          {
+            urlPattern: /^https:\/\/googleads\.g\.doubleclick\.net\//, // 屏蔽 Google Ads
+            handler: "NetworkOnly",
+          },
+          {
+            urlPattern: /^https:\/\/tpc\.googlesyndication\.com\//, // 屏蔽 Google 其他广告资源
+            handler: "NetworkOnly",
           },
         ],
       },
