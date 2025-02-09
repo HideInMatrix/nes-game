@@ -89,15 +89,15 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/pagead2\.googlesyndication\.com\//, // 屏蔽 AdSense
+            urlPattern: /fundingchoicesmessages\.google\.com\//,
             handler: "NetworkOnly",
           },
           {
-            urlPattern: /^https:\/\/googleads\.g\.doubleclick\.net\//, // 屏蔽 Google Ads
+            urlPattern: /pagead2\.googlesyndication\.com\//, // Exclude other Google ads
             handler: "NetworkOnly",
           },
           {
-            urlPattern: /^https:\/\/tpc\.googlesyndication\.com\//, // 屏蔽 Google 其他广告资源
+            urlPattern: /googleads\.g\.doubleclick\.net\//,
             handler: "NetworkOnly",
           },
         ],
