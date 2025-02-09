@@ -1,13 +1,15 @@
 <template>
-  <div
-    v-if="visible"
-    class="fixed inset-0 w-full h-full bg-[rgba(230,253,260)] flex flex-col items-center justify-center z-[1000]">
-    <svg class="w-[200px] h-[50px]" viewBox="0 0 200 50">
-      <text x="10" y="35" class="text-[#333333] animate-stroke">
-        {{ message }}
-      </text>
-    </svg>
-  </div>
+  <transition name="fade">
+    <div
+      v-if="visible"
+      class="fixed inset-0 w-full h-full bg-[rgba(230,253,260)] flex flex-col items-center justify-center z-[1000]">
+      <svg class="w-[200px] h-[50px]" viewBox="0 0 200 50">
+        <text x="10" y="35" class="text-[#333333] animate-stroke">
+          {{ message }}
+        </text>
+      </svg>
+    </div>
+  </transition>
 </template>
 
 <script setup>
@@ -53,5 +55,15 @@ defineExpose({
   stroke-width: 1;
   stroke-dasharray: 200 0;
   animation: stroke 2s ease-in-out infinite alternate;
+}
+
+/* 控制淡入和淡出效果 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
 }
 </style>
