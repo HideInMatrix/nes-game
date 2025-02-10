@@ -21,8 +21,8 @@ const p1Config = ref({
   DOWN: "KeyS",
   LEFT: "KeyA",
   RIGHT: "KeyD",
-  A: "KeyK",
-  B: "KeyJ",
+  A: "KeyJ",
+  B: "KeyK",
   SELECT: "Digit1",
   START: "Digit2",
 });
