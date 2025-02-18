@@ -79,42 +79,42 @@ const nesConfig = computed(() => ({
 const gamepadConnected = ref([false, false]);
 
 // 用来缓存文件和 URL 对应关系的函数
-function getFileUrl(file: { name: string; data: Blob }): Promise<string> {
-  const fileHash = file.name;
+// function getFileUrl(file: { name: string; data: Blob }): Promise<string> {
+//   const fileHash = file.name;
 
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, 1);
+//   return new Promise((resolve, reject) => {
+//     const request = indexedDB.open(DB_NAME, 1);
 
-    request.onsuccess = () => {
-      const db = request.result;
-      const tx = db.transaction(STORE_NAME, "readonly");
-      const store = tx.objectStore(STORE_NAME);
-      const fileRequest = store.get(fileHash);
+//     request.onsuccess = () => {
+//       const db = request.result;
+//       const tx = db.transaction(STORE_NAME, "readonly");
+//       const store = tx.objectStore(STORE_NAME);
+//       const fileRequest = store.get(fileHash);
 
-      fileRequest.onsuccess = () => {
-        if (fileRequest.result) {
-          resolve(fileRequest.result.url);
-        } else {
-          const fileUrl = URL.createObjectURL(file.data);
+//       fileRequest.onsuccess = () => {
+//         if (fileRequest.result) {
+//           resolve(fileRequest.result.url);
+//         } else {
+//           const fileUrl = URL.createObjectURL(file.data);
 
-          const saveRequest = store.put({
-            id: fileHash,
-            url: fileUrl,
-            data: file.data,
-          });
+//           const saveRequest = store.put({
+//             id: fileHash,
+//             url: fileUrl,
+//             data: file.data,
+//           });
 
-          saveRequest.onsuccess = () => resolve(fileUrl);
-          saveRequest.onerror = () => reject("Failed to save file URL");
-        }
-      };
+//           saveRequest.onsuccess = () => resolve(fileUrl);
+//           saveRequest.onerror = () => reject("Failed to save file URL");
+//         }
+//       };
 
-      fileRequest.onerror = () =>
-        reject("Failed to retrieve file from IndexedDB");
-    };
+//       fileRequest.onerror = () =>
+//         reject("Failed to retrieve file from IndexedDB");
+//     };
 
-    request.onerror = () => reject("Failed to open IndexedDB");
-  });
-}
+//     request.onerror = () => reject("Failed to open IndexedDB");
+//   });
+// }
 
 const loadRoms = async () => {
   return new Promise<void>((resolve, reject) => {
