@@ -176,7 +176,8 @@ watch(
   () => props.gameInfo,
   () => {
     checkSaveSlots();
-  }
+  },
+  { deep: true, immediate: true }
 );
 onUnmounted(() => {
   window.removeEventListener("keydown", handleKeyDown);

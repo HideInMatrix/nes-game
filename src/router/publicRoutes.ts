@@ -14,4 +14,9 @@ export const publicRoutes = [
     name: "game",
     component: () => import("../views/Game.vue"),
   },
+  {
+    path: "/local-games",
+    name: "localGames",
+    component: () => import("../views/LocalGames.vue"),
+  },
 ];

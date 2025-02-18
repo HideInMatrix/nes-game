@@ -4,6 +4,7 @@ export default {
     games: "Games",
     news: "News",
     about: "About",
+    localGames: 'ROM Library',
   },
   base: {
     playButton: "Play Now",
@@ -11,7 +12,15 @@ export default {
     noResult: "No results found",
     allCategories: "All Categories",
   },
-
+  localGames: {
+    title: 'ROM Library',
+    dropzone: 'Drop ROM file here or click to upload',
+    recentFiles: 'Recent Files',
+    noRecentFiles: 'No recent files',
+    uploadNew: 'Upload New ROM',
+    invalidFile: 'Invalid ROM file',
+    loading: 'Loading game...'
+  },
   controls: {
     title: "Game Controls",
     keyboard: "Keyboard",

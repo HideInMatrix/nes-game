@@ -42,6 +42,7 @@ const SCROLL_THRESHOLD = 50;
 const menus = [
   { name: "home", url: "/" },
   { name: "games", url: "/games" },
+  { name: "localGames", url: "/local-games" },
 ];
 
 const handleScroll = () => {
