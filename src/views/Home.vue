@@ -12,7 +12,8 @@ import { Category } from "@/game";
 import NativeAd from "@/components/google/NativeAd.vue";
 
 const adClientId = import.meta.env.VITE_GOOGLE_ADSENSE_ID;
-const displaySlot = import.meta.env.VITE_GOOGLE_ADSENSE_NATIVE_SLOT;
+
+const slotArray = [3412561938, 4596527616];
 
 const categories = ref<Category[]>([]);
 
@@ -38,7 +39,10 @@ onBeforeMount(() => {
     <HeroSection />
     <!-- Game Categories -->
     <div class="max-w-7xl mx-auto px-8 py-8">
-      <div v-for="category in categories" :key="category.id" class="mb-12">
+      <div
+        v-for="(category, categoryIndex) in categories"
+        :key="category.id"
+        class="mb-12">
         <h2 class="text-3xl mb-6 text-white">
           {{ category.name }}
         </h2>
@@ -48,8 +52,9 @@ onBeforeMount(() => {
             :key="game.id"
             :game="game" />
           <NativeAd
+            v-if="categoryIndex < slotArray.length"
             :client-id="adClientId"
-            :slot-id="displaySlot"
+            :slot-id="slotArray[categoryIndex]"
             :ad-style="{
               display: 'inline-block',
               width: '100%',
