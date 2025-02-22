@@ -58,7 +58,7 @@ onBeforeMount(() => {
             :ad-style="{
               display: 'inline-block',
               width: '100%',
-              height: '100%',
+              height: '150px',
               border: '1px solid #eee',
             }"
             native-format="image-centered" />
