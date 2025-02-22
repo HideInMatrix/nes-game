@@ -8,7 +8,6 @@ import BaseGoogleAd from "./BaseGoogleAd.vue";
     v-bind="$attrs"
     format="autorelaxed"
     :additionalAttributes="{
-      'data-ad-layout-key': '-gw-3+1f-3d+2z',
       'data-ad-layout': 'in-article',
     }" />
 </template>
