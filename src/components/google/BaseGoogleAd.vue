@@ -180,12 +180,12 @@ defineExpose({ refreshAd, adStatus });
       v-bind="additionalAttributes"></ins>
 
     <!-- 加载状态提示 -->
-    <div v-if="adStatus === 'loading'" class="ad-loading absolute">
+    <!-- <div v-if="adStatus === 'loading'" class="ad-loading absolute">
       Loading advertisement...
     </div>
     <div v-if="adStatus === 'error'" class="ad-error absolute">
       Failed to load advertisement
-    </div>
+    </div> -->
   </div>
 </template>
 
