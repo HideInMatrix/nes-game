@@ -16,6 +16,5 @@ defineProps({
     format="native"
     :additionalAttributes="{
       'data-native-format': nativeFormat,
-      'data-ad-layout-key': '-fg+5n+6t-dp+5h',
     }" />
 </template>
