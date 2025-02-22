@@ -168,9 +168,8 @@ defineExpose({ refreshAd, adStatus });
 </script>
 
 <template>
-  <div class="flex items-center flex-col justify-center">
+  <div class="flex items-center flex-col justify-center relative">
     <ins
-      v-show="adStatus === 'loaded'"
       ref="adElement"
       class="adsbygoogle"
       :style="mergedStyle"
@@ -181,10 +180,10 @@ defineExpose({ refreshAd, adStatus });
       v-bind="additionalAttributes"></ins>
 
     <!-- 加载状态提示 -->
-    <div v-if="adStatus === 'loading'" class="ad-loading">
+    <div v-if="adStatus === 'loading'" class="ad-loading absolute">
       Loading advertisement...
     </div>
-    <div v-if="adStatus === 'error'" class="ad-error">
+    <div v-if="adStatus === 'error'" class="ad-error absolute">
       Failed to load advertisement
     </div>
   </div>
