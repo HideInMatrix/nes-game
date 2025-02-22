@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Game } from "@/game";
-import GoogleAdSense from "@/components/google/Adsense.vue";
+import DisplayAd from "@/components/google/DisplayAd.vue";
 
 defineProps<{
   gameInfo: Game;
@@ -26,8 +26,14 @@ const displaySlot = import.meta.env.VITE_GOOGLE_ADSENSE_DISPLAY_SLOT;
         </div>
       </div>
     </div>
-    <GoogleAdSense
-      adStyle="display:inline-block;width:100%;height:300px;margin-top:20px"
+
+    <DisplayAd
+      :adStyle="{
+        display: 'inline-block',
+        width: '100%',
+        height: '300px',
+        'margin-top': '20px',
+      }"
       :clientId="adClientId"
       :slotId="displaySlot" />
   </div>

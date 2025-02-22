@@ -9,6 +9,11 @@ import LoadingPlugin from "@/plugins/loading";
 
 import { Category } from "@/game";
 
+import NativeAd from "@/components/google/NativeAd.vue";
+
+const adClientId = import.meta.env.VITE_GOOGLE_ADSENSE_ID;
+const displaySlot = import.meta.env.VITE_GOOGLE_ADSENSE_NATIVE_SLOT;
+
 const categories = ref<Category[]>([]);
 
 onBeforeMount(() => {
@@ -42,6 +47,16 @@ onBeforeMount(() => {
             v-for="game in category.games"
             :key="game.id"
             :game="game" />
+          <NativeAd
+            :client-id="adClientId"
+            :slot-id="displaySlot"
+            :ad-style="{
+              display: 'inline-block',
+              width: '100%',
+              height: '100%',
+              border: '1px solid #eee',
+            }"
+            native-format="image-centered" />
         </div>
       </div>
     </div>
