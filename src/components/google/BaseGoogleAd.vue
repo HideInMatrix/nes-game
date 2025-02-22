@@ -207,7 +207,6 @@ defineExpose({ refreshAd, adStatus });
   padding: 20px;
   text-align: center;
   background: #f5f5f5;
-  border: 1px dashed #ddd;
 }
 
 .ad-error {
