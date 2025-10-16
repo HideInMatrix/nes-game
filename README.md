@@ -19,3 +19,7 @@
 - 前端：使用 React 开发，使用 Redux 管理状态，使用 React Router 管理路由。
 - 后端：使用 Node.js 开发，使用 Nest.js 框架开发 RESTful API。
 - 数据库：使用 PostgreSQL 数据库，存储用户信息、游戏记录、排行榜等。
+
+## Dokploy
+
+DOKPLOY_WEBHOOK_URL 在 github action -> Repository secrets 中添加 DOKPLOY_WEBHOOK_URL 地址
