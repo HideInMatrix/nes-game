@@ -1,41 +1,33 @@
 # syntax=docker/dockerfile:1.7
+FROM node:20-alpine AS app
 
-# 构建阶段：使用 Node 构建静态文件
-FROM node:20-alpine AS builder
-
+# 设置工作目录
 WORKDIR /app
 
-# 使用 corepack 管理 pnpm
+# 使用 corepack 管理 pnpm 版本（更稳定）
 RUN corepack enable && corepack prepare pnpm@9.12.0 --activate
 
-# 复制 lock 文件并安装依赖
+# 复制 package.json 和 pnpm-lock.yaml 文件
 COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install --frozen-lockfile
 
-# 复制源码并构建（保持占位符，无需 env 注入）
+# 安装依赖，利用 Docker 缓存
+RUN pnpm install
+
+# 接收构建参数（关键修改）
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
+# 复制源码
 COPY . .
+
+# 构建项目（此时 VITE_API_URL 已注入）
 RUN pnpm build
 
-# 运行阶段：使用 Nginx 服务静态文件
-FROM nginx:alpine
+# 清理缓存，减少镜像体积
+RUN pnpm store prune && rm -rf /tmp/*
 
-# 复制构建产物到 Nginx html 目录
-COPY --from=builder /app/dist /usr/share/nginx/html
+# 开放 Vite Preview 默认端口
+EXPOSE 4173
 
-# 安装 envsubst（用于运行时替换）
-RUN apk add --no-cache gettext
-
-# 创建启动脚本：替换 HTML 占位符，然后启动 Nginx
-RUN echo '#!/bin/sh\n\
-set -e\n\
-# 替换 index.html 中的 ${API_URL}\n\
-envsubst < /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.html.tmp && mv /usr/share/nginx/html/index.html.tmp /usr/share/nginx/html/index.html\n\
-# 启动 Nginx\n\
-exec nginx -g "daemon off;"' > /start.sh && chmod +x /start.sh
-
-# 暴露 80 端口（Nginx 默认，Dokploy 易映射）
-EXPOSE 80
-
-# 使用脚本启动，注入运行时 env
-ENV API_URL=https://game-api.micromatrix.org  # 默认值，Dokploy 可覆盖
-CMD ["/start.sh"]
+# 使用 pnpm preview 启动服务
+CMD ["pnpm", "preview", "--host", "0.0.0.0", "--port", "4173"]
