@@ -13,12 +13,14 @@ COPY package.json pnpm-lock.yaml* ./
 # 安装依赖，利用 Docker 缓存
 RUN pnpm install
 
+# 接收构建参数（关键修改）
+ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL
 
 # 复制源码
 COPY . .
 
-# 构建项目
+# 构建项目（此时 VITE_API_URL 已注入）
 RUN pnpm build
 
 # 清理缓存，减少镜像体积

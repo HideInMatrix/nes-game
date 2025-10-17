@@ -46,7 +46,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          # 关键修改：传入 build arg
           build-args: |
+            VITE_API_URL=${{ secrets.VITE_API_URL }}
 
       # Trigger redeploy on dokploy => project webhooks settings
       - name: Trigger dokploy redeploy
