@@ -47,7 +47,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       # Trigger redeploy on dokploy => project webhooks settings
       - name: Trigger dokploy redeploy
